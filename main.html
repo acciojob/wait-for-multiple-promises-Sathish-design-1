@@ -45,7 +45,7 @@
                 const row = document.createElement('tr');
                 row.innerHTML = `<td>${result.promiseNumber}</td><td>${result.time}</td>`;
                 output.appendChild(row);
-                totalTime = Math.max(totalTime, parseFloat(result.time)); // Get the maximum time
+                totalTime += parseFloat(result.time); // Sum the time taken by all promises
             });
 
             // Add total row

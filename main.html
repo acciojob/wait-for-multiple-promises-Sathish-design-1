@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Promise Results Table</title>
+    <title>Promise Resolution Tracker</title>
 </head>
-
 <body>
     <table border="1">
         <thead>
@@ -16,44 +14,12 @@
             </tr>
         </thead>
         <tbody id="output">
-            <tr id="loading">
+            <tr>
                 <td colspan="2">Loading...</td>
             </tr>
         </tbody>
     </table>
-    <script>
-        function createPromise(promiseNumber) {
-            return new Promise((resolve) => {
-                const delay = Math.random() * 2000 + 1000; // Random delay between 1 and 3 seconds
-                setTimeout(() => {
-                    resolve({ promiseNumber: `Promise ${promiseNumber}`, time: (delay / 1000).toFixed(3) });
-                }, delay);
-            });
-        }
 
-        Promise.all([
-            createPromise(1),
-            createPromise(2),
-            createPromise(3)
-        ]).then(results => {
-            const output = document.getElementById('output');
-            output.innerHTML = ''; // Clear loading text
-
-            let totalTime = 0;
-
-            results.forEach(result => {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td>${result.promiseNumber}</td><td>${result.time}</td>`;
-                output.appendChild(row);
-                totalTime += parseFloat(result.time); // Sum the time taken by all promises
-            });
-
-            // Add total row
-            const totalRow = document.createElement('tr');
-            totalRow.innerHTML = `<td>Total</td><td>${totalTime.toFixed(3)}</td>`;
-            output.appendChild(totalRow);
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
-
 </html>

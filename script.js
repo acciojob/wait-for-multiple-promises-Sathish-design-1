@@ -1,47 +1,52 @@
-//your JS code here. If required.
-function createPromise(promiseNumber) {
-    return new Promise((resolve) => {
-        const time = Math.random() * 2 + 1; // Random time between 1 and 3 seconds
+const tbody = document.getElementById("output");
+
+function createRandomPromise(index) {
+    const time = (Math.random() * 2 + 1);
+    return new Promise(resolve => {
         setTimeout(() => {
-            resolve({ promiseNumber, time: time.toFixed(3) });
+            resolve({ index, time });
         }, time * 1000);
     });
 }
 
-// Function to update the table with the results
-function updateTable(results) {
-    const output = document.getElementById('output');
-    // Clear the loading row
-    output.innerHTML = '';
+// Create the 3 promises
+const p1 = createRandomPromise(1);
+const p2 = createRandomPromise(2);
+const p3 = createRandomPromise(3);
 
-    // Calculate total time (longest promise time)
-    const totalTime = Math.max(...results.map(result => parseFloat(result.time)));
+const startTime = performance.now();
 
-    // Add rows for each promise
+Promise.all([p1, p2, p3]).then(results => {
+    // Remove "Loading..." row
+    tbody.innerHTML = "";
+
+    // Add each promise row
     results.forEach(result => {
-        const row = document.createElement('tr');
-        row.innerHTML = `<td>Promise ${result.promiseNumber}</td><td>${result.time}</td>`;
-        output.appendChild(row);
+        const row = document.createElement("tr");
+
+        const nameCell = document.createElement("td");
+        nameCell.textContent = `Promise ${result.index}`;
+
+        const timeCell = document.createElement("td");
+        timeCell.textContent = result.time.toFixed(3);
+
+        row.appendChild(nameCell);
+        row.appendChild(timeCell);
+        tbody.appendChild(row);
     });
 
-    // Add total row
-    const totalRow = document.createElement('tr');
-    totalRow.innerHTML = `<td>Total</td><td>${totalTime.toFixed(3)}</td>`;
-    output.appendChild(totalRow);
-}
+    // Total row (max time)
+    const totalTime = Math.max(...results.map(r => r.time));
 
-// Main function to execute promises
-async function executePromises() {
-    const promises = [
-        createPromise(1),
-        createPromise(2),
-        createPromise(3)
-    ];
+    const totalRow = document.createElement("tr");
 
-    // Wait for all promises to resolve
-    const results = await Promise.all(promises);
-    updateTable(results);
-}
+    const totalCell1 = document.createElement("td");
+    totalCell1.textContent = "Total";
 
-// Start the promise execution
-executePromises();
+    const totalCell2 = document.createElement("td");
+    totalCell2.textContent = totalTime.toFixed(3);
+
+    totalRow.appendChild(totalCell1);
+    totalRow.appendChild(totalCell2);
+    tbody.appendChild(totalRow);
+});

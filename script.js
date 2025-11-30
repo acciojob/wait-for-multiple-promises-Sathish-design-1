@@ -1,7 +1,8 @@
 const tbody = document.getElementById("output");
 
+// Function to create a promise that resolves after a random time between 1 and 3 seconds
 function createRandomPromise(index) {
-    const time = (Math.random() * 2 + 1);
+    const time = (Math.random() * 2 + 1); // Random time between 1 and 3 seconds
     return new Promise(resolve => {
         setTimeout(() => {
             resolve({ index, time });
@@ -9,11 +10,15 @@ function createRandomPromise(index) {
     });
 }
 
+// Display the loading row initially
+tbody.innerHTML = '<tr><td colspan="2">Loading...</td></tr>';
+
 // Create the 3 promises
 const p1 = createRandomPromise(1);
 const p2 = createRandomPromise(2);
 const p3 = createRandomPromise(3);
 
+// Start measuring performance
 const startTime = performance.now();
 
 Promise.all([p1, p2, p3]).then(results => {
@@ -49,4 +54,8 @@ Promise.all([p1, p2, p3]).then(results => {
     totalRow.appendChild(totalCell1);
     totalRow.appendChild(totalCell2);
     tbody.appendChild(totalRow);
+
+    // Optionally log the total time taken for all promises
+    const endTime = performance.now();
+    console.log(`Total time taken for all promises: ${(endTime - startTime).toFixed(3)} ms`);
 });

@@ -41,15 +41,15 @@ Promise.all([p1, p2, p3]).then(results => {
     });
 
     // Total row (max time)
-    const totalTime = Math.max(...results.map(r => r.time));
+    const totalTime = Math.max(...results.map(r => r.time)); // Longest time taken
 
     const totalRow = document.createElement("tr");
 
     const totalCell1 = document.createElement("td");
-    totalCell1.textContent = "Total";
+    totalCell1.textContent = "Total Time Taken";
 
     const totalCell2 = document.createElement("td");
-    totalCell2.textContent = totalTime.toFixed(3);
+    totalCell2.textContent = totalTime.toFixed(3); // Reflects the max time
 
     totalRow.appendChild(totalCell1);
     totalRow.appendChild(totalCell2);
@@ -57,5 +57,6 @@ Promise.all([p1, p2, p3]).then(results => {
 
     // Optionally log the total time taken for all promises
     const endTime = performance.now();
-    console.log(`Total time taken for all promises: ${(endTime - startTime).toFixed(3)} ms`);
+    const totalElapsedTime = endTime - startTime;
+    console.log(`Total time taken for all promises: ${totalElapsedTime.toFixed(3)} ms`);
 });
